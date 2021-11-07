@@ -44,6 +44,4 @@ If = cv2.dilate(If, se)
 
 # Plot results
 If = cv2.normalize(If, dst=None, alpha=0, beta=np.iinfo(np.uint16).max, norm_type=cv2.NORM_MINMAX)
-cv2.imshow('Change detection', If)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+cv2.imwrite("cda_out.png", If)
