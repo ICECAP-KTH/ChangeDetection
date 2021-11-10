@@ -134,10 +134,11 @@ def main():
     tic = time.time()
 
     bcm = CVA(img_X, img_Y)
-    imageio.imwrite('CVA_out.png', bcm)
 
     toc = time.time()
     print(toc - tic)
+
+    imageio.imwrite('CVA_out.png', bcm)
 
 
 if __name__ == '__main__':
