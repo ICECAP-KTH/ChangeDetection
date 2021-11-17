@@ -9,6 +9,7 @@ import numpy as np
 from scipy.linalg import eig
 from scipy.stats import chi2
 
+import cv2
 import gdal
 import time
 import imageio
@@ -220,6 +221,15 @@ def run_isfa(img_X, img_Y):
 
     bcm[sqrt_chi2 > thre] = 255
     bcm = np.reshape(bcm, (img_height, img_width))
+
+    # Morphological operations
+    se = np.array([[0, 0, 1, 0, 0],
+                   [0, 1, 1, 1, 0],
+                   [1, 1, 1, 1, 1],
+                   [0, 1, 1, 1, 0],
+                   [0, 0, 1, 0, 0]], np.uint8)
+    bcm = cv2.erode(bcm, se)
+    bcm = cv2.dilate(bcm, se)
 
     return bcm
 

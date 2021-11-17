@@ -10,6 +10,7 @@ from numpy.linalg import inv, eig
 from scipy.stats import chi2
 from sklearn.cluster import KMeans
 
+import cv2
 import gdal
 import time
 import imageio
@@ -99,6 +100,15 @@ def get_binary_change_map(data):
         bcm[dis_1 <= dis_2] = 255
     else:
         bcm[dis_1 > dis_2] = 255
+
+    # Morphological operations
+    se = np.array([[0, 0, 1, 0, 0],
+                   [0, 1, 1, 1, 0],
+                   [1, 1, 1, 1, 1],
+                   [0, 1, 1, 1, 0],
+                   [0, 0, 1, 0, 0]], np.uint8)
+    bcm = cv2.erode(bcm, se)
+    bcm = cv2.dilate(bcm, se)
 
     return bcm
 

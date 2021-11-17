@@ -5,6 +5,7 @@ T. Celik, “Unsupervised Change Detection in Satellite Images Using Principal C
 This implementation is based on the one available here:
 https://github.com/I-Hope-Peace/ChangeDetectionRepository/tree/master/Methodology/Traditional/PCAKmeans
 """
+import cv2
 import gdal
 import time
 import numpy as np
@@ -142,6 +143,16 @@ def pca_k_means(img_diff, block_size=4, eig_space_dim=3):
 
     # generate change map
     change_map = gene_change_map(img_diff, feature_vec, cluster_center)
+
+    # Morphological operations
+    se = np.array([[0, 0, 1, 0, 0],
+                   [0, 1, 1, 1, 0],
+                   [1, 1, 1, 1, 1],
+                   [0, 1, 1, 1, 0],
+                   [0, 0, 1, 0, 0]], np.uint8)
+    change_map = cv2.erode(change_map, se)
+    change_map = cv2.dilate(change_map, se)
+    
     return change_map
 
 

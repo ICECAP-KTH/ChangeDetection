@@ -4,6 +4,7 @@ Change Vector Analysis algorithm
 This implementation is based on the one available here:
 https://github.com/I-Hope-Peace/ChangeDetectionRepository/tree/master/Methodology/Traditional/CVA
 """
+import cv2
 import numpy as np
 import imageio
 import gdal
@@ -108,6 +109,15 @@ def CVA(img_X, img_Y):
 
     bcm[L2_norm > thre] = 255
     bcm = np.reshape(bcm, (img_height, img_width))
+
+    # Morphological operations
+    se = np.array([[0, 0, 1, 0, 0],
+                   [0, 1, 1, 1, 0],
+                   [1, 1, 1, 1, 1],
+                   [0, 1, 1, 1, 0],
+                   [0, 0, 1, 0, 0]], np.uint8)
+    bcm = cv2.erode(bcm, se)
+    bcm = cv2.dilate(bcm, se)
 
     return bcm
 
