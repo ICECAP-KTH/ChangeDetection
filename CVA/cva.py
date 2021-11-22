@@ -9,6 +9,7 @@ import numpy as np
 import imageio
 import gdal
 import time
+import matplotlib.pyplot as plt
 
 
 def otsu(data, num=400):
@@ -104,8 +105,13 @@ def CVA(img_X, img_Y):
     img_diff = img_X - img_Y
     L2_norm = np.sqrt(np.sum(np.square(img_diff), axis=0))
 
+    thre = 7
+    # plt.plot(range(500), L2_norm[215][:500])
+    # plt.hlines(thre, 0, 500, colors=['red'])
+    # plt.show()
+
     bcm = np.zeros((img_height, img_width), dtype=np.uint8)
-    thre = otsu(L2_norm.reshape(1, -1))
+    # thre = otsu(L2_norm.reshape(1, -1))
 
     bcm[L2_norm > thre] = 255
     bcm = np.reshape(bcm, (img_height, img_width))

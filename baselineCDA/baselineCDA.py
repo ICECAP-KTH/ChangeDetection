@@ -4,6 +4,7 @@
 import cv2
 import numpy as np
 import tifffile as tiff
+import matplotlib.pyplot as plt
 
 # Select the band and threshold value
 band = 2
@@ -45,3 +46,7 @@ If = cv2.dilate(If, se)
 # Plot results
 If = cv2.normalize(If, dst=None, alpha=0, beta=np.iinfo(np.uint16).max, norm_type=cv2.NORM_MINMAX)
 cv2.imwrite("cda_out.png", If)
+
+plt.plot(range(500), Idif[215][:500])
+plt.hlines(tr, 0, 500, colors=['red'])
+plt.show()

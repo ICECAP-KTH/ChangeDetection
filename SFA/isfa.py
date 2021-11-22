@@ -8,6 +8,7 @@ https://github.com/I-Hope-Peace/ChangeDetectionRepository/tree/master/Methodolog
 import numpy as np
 from scipy.linalg import eig
 from scipy.stats import chi2
+import matplotlib.pyplot as plt
 
 import cv2
 import gdal
@@ -215,9 +216,15 @@ def run_isfa(img_X, img_Y):
     _, _, _, _, bn_iwd, _ = sfa.isfa(max_iter=50, epsilon=1e-3, norm_trans=True)
 
     sqrt_chi2 = np.sqrt(bn_iwd)
+    sqrt_chi2 = np.reshape(sqrt_chi2, (img_height, img_width))
 
-    bcm = np.zeros((1, img_height * img_width), dtype=np.uint8)
-    thre = otsu(sqrt_chi2)
+    thre = 11
+    # plt.plot(range(500), sqrt_chi2[215][:500])
+    # plt.hlines(thre, 0, 500, colors=['red'])
+    # plt.show()
+
+    bcm = np.zeros((img_height, img_width), dtype=np.uint8)
+    #thre = otsu(sqrt_chi2)
 
     bcm[sqrt_chi2 > thre] = 255
     bcm = np.reshape(bcm, (img_height, img_width))
